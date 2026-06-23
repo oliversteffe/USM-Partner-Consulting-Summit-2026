@@ -4,6 +4,7 @@ Purpose:   Dynamische Steuerung der EditView Attribute, wie z.B. ReadOnly.
 Developer: Oliver Steffe (OS)
 
 Change Log:
+2026-06-23 | OS | 00001 | Verbesserungen Showcase für Demo
 2026-06-22 | OS | 00000 | Setzen des ReadOnly Flags dynamisch.
 """
 from vm.xDeOliverSteffe_demo.view import check_readOnly_for_openingEditView, parse_string_to_list
@@ -26,6 +27,8 @@ boName = bo.getBOField("systemname").getValue() if bo else None
 assert (boName == systemName), u"Fehler: System nicht vorhanden. systemName=%s, expectedSystemname=%s" % (boName, systemName)
 
 exeption_boTypeNames_list = ["System","Component"]
+#exeption_boTypeNames_list = VM.getMainParameter("xDeOliverSteffe_demo", "RO_exception_ObjectTypeList")
+
 #exeption_boTypeNames = "System, Component"
 #exeption_boTypeNames = VM.getMainParameter("xDeOliverSteffe_demo", "RO_exception_ObjectTypeNames")
 #exeption_boTypeNames_list = parse_string_to_list(exeption_boTypeNames)
