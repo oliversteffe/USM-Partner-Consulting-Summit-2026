@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VMObjects exporter-version="3.0.8" language="en_US" modules="0,1,2,4,6,7,9,10,99,101,222,333,500,601,603,604,605,607,608" timezone="Europe/Berlin" version="5.3.HOTFIX10" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="VMObjects.xsd">
+    <de.usu.s3.application.settings.Mainparameter id="220282" info="xDeOliverSteffe_demo.RO_exception_ObjectTypeList">
+        <parameter>RO_exception_ObjectTypeList</parameter>
+        <path>xDeOliverSteffe_demo</path>
+        <s3User/>
+        <datchg>2026-06-23T15:16:55.714</datchg>
+        <datcre>2026-06-23T15:15:58.238</datcre>
+        <description/>
+        <exportEnabled>false</exportEnabled>
+        <paramtype>1</paramtype>
+        <userchg>VM</userchg>
+        <usercre>VM</usercre>
+        <value>["System","Component"]</value>
+    </de.usu.s3.application.settings.Mainparameter>
+    <de.usu.s3.application.settings.Mainparameter id="219881" info="xDeOliverSteffe_demo.RO_exception_ObjectTypeNames">
+        <parameter>RO_exception_ObjectTypeNames</parameter>
+        <path>xDeOliverSteffe_demo</path>
+        <s3User/>
+        <datchg>2026-06-23T15:16:51.642</datchg>
+        <datcre>2026-06-22T14:42:38.084</datcre>
+        <description/>
+        <exportEnabled>false</exportEnabled>
+        <paramtype>1</paramtype>
+        <userchg>VM</userchg>
+        <usercre>VM</usercre>
+        <value>System, Component</value>
+    </de.usu.s3.application.settings.Mainparameter>
+</VMObjects>
