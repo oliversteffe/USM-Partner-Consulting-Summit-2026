@@ -1,0 +1,698 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VMObjects exporter-version="5.0.0" language="en_US" modules="0,1,2,4,6,7,9,10,99,101,222,333,500,601,603,604,605,607,608" timezone="Europe/Berlin" version="5.3.HOTFIX10" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="VMObjects.xsd">
+    <de.usu.s3.workflow.metamodel.MetaWorkflow id="549915" info="xDeOliverSteffe_demo">
+        <nameKey>xDeOliverSteffe_demo</nameKey>
+        <actionInfoObjectWfs/>
+        <complSources/>
+        <moduleMetaWorkflows/>
+        <nodes>
+            <de.usu.s3.workflow.metamodel.MetaNode id="585274" info="view">
+                <nameKey>view</nameKey>
+                <owner id="549915"/>
+                <code>
+                    <de.usu.s3.workflow.Code id="293980" info="name = 'code'">
+                        <name>code</name>
+                        <changedBy>VM</changedBy>
+                        <changedWhen>2026-06-22T19:46:13.55</changedWhen>
+                        <comment nil="true"/>
+                        <datchg>2026-06-22T19:46:13.553</datchg>
+                        <datcre>2026-06-22T14:29:03.477</datcre>
+                        <metanode id="585274"/>
+                        <text><![CDATA["""
+Script / Module : xde.oliver-steffe.demo
+Purpose: Funktionen für GUI Steuerung in Workflows
+Developer: Oliver Steffe
+MockTests: View_Test with Sidebar-WF [doctest_runselected] "SNB_Functions_GUI/View_Test"
+Change Log:
+  - 0.0.1 | 2026-06-22 | OS | 00000 | Initial
+"""
+__all__ = ["check_readOnly_for_openingEditView"]
+
+def parse_string_to_list(string):
+    """ Wandelt einen String wie 'System', 'Component' in eine Liste um.
+    Falls schon eine Liste übergeben wird, wird diese durchgereicht.
+    """
+
+    if not string:
+        return []
+
+    if isinstance(string, list) :
+        return string
+
+    # Entfernt alle Anführungszeichen (sowohl einfache als auch doppelte)
+    clean_str = string.replace("'", "").replace('"', "")
+    items = [item.strip() for item in clean_str.split(',')]
+    return items
+
+def check_readOnly_for_openingEditView(object=None, exception_boTypeNamesList=None):
+    """ Prüft ob ReadOnly für das anzuzeigenden BO deaktiviert werden muss.
+    Args:
+        object: der Objekttyp der angezeigt wird.
+        exception_boTypeNames: String "'System','Component'", "System, Component" oder Liste ["System","Component"] der BOTypen, die nicht read-only sein sollen.
+    Returns:
+        bool: True bei Default, False wenn Ausnahme greift.
+    Raises:
+        Exception: Bei inkompatiblem Objekttyp ohne getName().
+    """
+
+    if isinstance(exception_boTypeNamesList, list) :
+        myList = exception_boTypeNamesList
+    else:
+        myList = []
+
+    try:
+        if object and hasattr(object.getBOType(), 'getName'):
+            boTypeName = object.getBOType().getName()
+            if boTypeName in myList:
+                return False
+        return True
+    except Exception as e:
+        VM.logMessage("Fehler in check_readOnly_for_openingEditView: " + str(e), VM.LOG_ERROR)
+        return True]]></text>
+                        <userchg>VM</userchg>
+                        <usercre>VM</usercre>
+                    </de.usu.s3.workflow.Code>
+                </code>
+                <incomingTransitions/>
+                <initParams/>
+                <nodeLayout>
+                    <de.usu.s3.workflow.metamodel.ElementLayout id="585615" info="node = {nameKey = 'view', owner = {nameKey = 'xDeOliverSteffe_demo'}}">
+                        <node id="585274"/>
+                        <datchg>2026-06-22T14:28:15.328</datchg>
+                        <datcre>2026-06-22T14:28:15.328</datcre>
+                        <height>96</height>
+                        <userchg>VM</userchg>
+                        <usercre>VM</usercre>
+                        <width>144</width>
+                        <xPos>16</xPos>
+                        <yPos>16</yPos>
+                    </de.usu.s3.workflow.metamodel.ElementLayout>
+                </nodeLayout>
+                <outgoingTransitions/>
+                <rights/>
+                <authorizeExplicitly/>
+                <autoStartedUserActivity>true</autoStartedUserActivity>
+                <beforeMerge/>
+                <customizable>false</customizable>
+                <datchg>2026-06-22T14:28:15.328</datchg>
+                <datcre>2026-06-22T14:28:15.328</datcre>
+                <indicatesStartingPoint>0</indicatesStartingPoint>
+                <nodeType>de.usu.s3.workflow.meta.activities.MetaRunScript</nodeType>
+                <synchronizationLock>true</synchronizationLock>
+                <transientNode>true</transientNode>
+                <userDescription/>
+                <userchg>VM</userchg>
+                <usercre>VM</usercre>
+            </de.usu.s3.workflow.metamodel.MetaNode>
+            <de.usu.s3.workflow.metamodel.MetaNode id="585275" info="view_Test">
+                <nameKey>view_Test</nameKey>
+                <owner id="549915"/>
+                <code>
+                    <de.usu.s3.workflow.Code id="293985" info="name = 'code'">
+                        <name>code</name>
+                        <changedBy>VM</changedBy>
+                        <changedWhen>2026-06-23T11:19:22.925</changedWhen>
+                        <comment nil="true"/>
+                        <datchg>2026-06-23T11:19:22.928</datchg>
+                        <datcre>2026-06-22T14:30:48.399</datcre>
+                        <metanode id="585275"/>
+                        <text><![CDATA[from vm.xDeOliverSteffe_demo.view import check_readOnly_for_openingEditView, parse_string_to_list
+import unittest
+
+class MockBOType:
+    def __init__(self, name):
+        self.name = name
+
+    def getName(self):
+        return self.name
+
+class MockObject:
+    def __init__(self, bo_type_name):
+        self.bo_type = MockBOType(bo_type_name)
+
+    def getBOType(self):
+        return self.bo_type
+
+class MockBOTypeWithoutGetName:
+    pass  # Keine getName()-Methode
+
+class MockObjectWithBOTypeButNoGetName:
+    def getBOType(self):
+        return MockBOTypeWithoutGetName()
+
+# Test
+system = MockObject("System")
+component = MockObject("Component")
+person = MockObject("Person")
+
+exeption_boTypeNames1_str = "System, Component"
+exeption_boTypeNames2_str = "'System', 'Component'"
+exeption_boTypeNames1_unicode = u"System, Component"
+exeption_boTypeNames2_unicode = u"'System', 'Component'"
+
+exeption_boTypeNames_List = ["System","Component"]
+
+# Test with Sidebar-WF [doctest_runselected]
+
+class test_RO_Exception(unittest.TestCase) :
+
+    def test_with_None(self) :
+        self.assertEqual(check_readOnly_for_openingEditView(None, exeption_boTypeNames_List), (True))
+
+    def test_with_System_and_boTypeNames_None(self) :
+        self.assertEqual(check_readOnly_for_openingEditView(system, None), (True))
+
+    def test_with_Person(self) :
+        self.assertEqual(check_readOnly_for_openingEditView(person, exeption_boTypeNames_List), (True))
+
+    def test_with_System(self) :
+        self.assertEqual(check_readOnly_for_openingEditView(system, exeption_boTypeNames_List), (False))
+
+    def test_with_Component(self) :
+        self.assertEqual(check_readOnly_for_openingEditView(component, exeption_boTypeNames_List), (False))
+
+
+class test_parse_string_to_list(unittest.TestCase) :
+
+    def test_with_None(self) :
+        self.assertEqual(parse_string_to_list(None), ([]))
+
+    def test_with_List(self) :
+        self.assertEqual(parse_string_to_list(exeption_boTypeNames_List), (["System","Component"]))
+
+    def test_with_str(self) :
+        self.assertEqual(parse_string_to_list(exeption_boTypeNames1_str), (["System","Component"]))
+
+#    def test_2_str(self) :
+#        self.assertEqual(parse_string_to_list(exeption_boTypeNames2_str), (["System","Component"]))
+#
+#    def test_1_unicode(self) :
+#        self.assertEqual(parse_string_to_list(exeption_boTypeNames1_unicode), (["System","Component"]))
+#
+#    def test_2_unicode(self) :
+#        self.assertEqual(parse_string_to_list(exeption_boTypeNames2_unicode), (["System","Component"]))]]></text>
+                        <userchg>VM</userchg>
+                        <usercre>VM</usercre>
+                    </de.usu.s3.workflow.Code>
+                </code>
+                <incomingTransitions/>
+                <initParams/>
+                <nodeLayout>
+                    <de.usu.s3.workflow.metamodel.ElementLayout id="585616" info="node = {nameKey = 'view_Test', owner = {nameKey = 'xDeOliverSteffe_demo'}}">
+                        <node id="585275"/>
+                        <datchg>2026-06-22T14:30:17.085</datchg>
+                        <datcre>2026-06-22T14:30:17.085</datcre>
+                        <height>96</height>
+                        <userchg>VM</userchg>
+                        <usercre>VM</usercre>
+                        <width>144</width>
+                        <xPos>176</xPos>
+                        <yPos>16</yPos>
+                    </de.usu.s3.workflow.metamodel.ElementLayout>
+                </nodeLayout>
+                <outgoingTransitions/>
+                <rights/>
+                <authorizeExplicitly/>
+                <autoStartedUserActivity>true</autoStartedUserActivity>
+                <beforeMerge/>
+                <customizable>false</customizable>
+                <datchg>2026-06-22T14:30:30.868</datchg>
+                <datcre>2026-06-22T14:30:17.085</datcre>
+                <indicatesStartingPoint>0</indicatesStartingPoint>
+                <nodeType>de.usu.s3.workflow.meta.activities.MetaRunScript</nodeType>
+                <synchronizationLock>true</synchronizationLock>
+                <transientNode>true</transientNode>
+                <userDescription/>
+                <userchg>VM</userchg>
+                <usercre>VM</usercre>
+            </de.usu.s3.workflow.metamodel.MetaNode>
+        </nodes>
+        <rights/>
+        <allowedInSideBar>false</allowedInSideBar>
+        <datchg>2026-06-23T11:19:22.934</datchg>
+        <datcre>2026-06-22T14:28:15.328</datcre>
+        <objectBoards/>
+        <type>2</type>
+        <userDescription>Demo for MockTests</userDescription>
+        <userchg>VM</userchg>
+        <usercre>VM</usercre>
+    </de.usu.s3.workflow.metamodel.MetaWorkflow>
+    <de.usu.s3.workflow.metamodel.MetaWorkflow id="550016" info="xDeOliverSteffe_debug">
+        <nameKey>xDeOliverSteffe_debug</nameKey>
+        <actionInfoObjectWfs/>
+        <complSources/>
+        <moduleMetaWorkflows/>
+        <nodes>
+            <de.usu.s3.workflow.metamodel.MetaNode id="585374" info="debug">
+                <nameKey>debug</nameKey>
+                <owner id="550016"/>
+                <code>
+                    <de.usu.s3.workflow.Code id="294183" info="name = 'code'">
+                        <name>code</name>
+                        <changedBy>VM</changedBy>
+                        <changedWhen>2026-06-22T20:02:06.098</changedWhen>
+                        <comment nil="true"/>
+                        <datchg>2026-06-22T20:02:06.1</datchg>
+                        <datcre>2026-06-22T14:40:44.914</datcre>
+                        <metanode id="585374"/>
+                        <text><![CDATA["""
+Script / Module : xSNB_Edit_readonly_modal_v02
+Purpose:   Dynamische Steuerung der EditView Attribute, wie z.B. ReadOnly.
+Developer: Oliver Steffe (OS)
+
+Change Log:
+2026-06-22 | OS | 00000 | Setzen des ReadOnly Flags dynamisch.
+"""
+from vm.xDeOliverSteffe_demo.view import check_readOnly_for_openingEditView, parse_string_to_list
+
+def findAndReturnFirstObject(objectTypeName, filter, txn=None):
+    objectType = VM.getBOTypes().find(objectTypeName)
+    activeTxn = txn if txn is not None else transaction
+    objectsIterator = objectType.createIterator(activeTxn, filter)
+    while objectsIterator.hasNext():
+        return objectsIterator.next()
+    return None
+
+# Preparing Data
+systemName = "TEST-0000101"
+systemFilter_string = u"systemname == '{}'".format(systemName)
+txn = VM.createTransaction()
+bo = findAndReturnFirstObject('System', systemFilter_string, txn)
+
+boName = bo.getBOField("systemname").getValue() if bo else None
+assert (boName == systemName), u"Fehler: System nicht vorhanden. systemName=%s, expectedSystemname=%s" % (boName, systemName)
+
+exeption_boTypeNames_list = ["System","Component"]
+#exeption_boTypeNames = "System, Component"
+#exeption_boTypeNames = VM.getMainParameter("xDeOliverSteffe_demo", "RO_exception_ObjectTypeNames")
+#exeption_boTypeNames_list = parse_string_to_list(exeption_boTypeNames)
+
+# run function
+readOnly = check_readOnly_for_openingEditView(bo, exeption_boTypeNames_list)
+
+# Assertion with logging
+try:
+    assert readOnly == False, "Expected: False, result: %s" % readOnly
+except AssertionError as e:
+    VM.logMessage("Assertion failed: %s" % str(e), VM.LOG_ERROR)
+    raise
+
+_output.put("Read Only", readOnly)]]></text>
+                        <userchg>VM</userchg>
+                        <usercre>VM</usercre>
+                    </de.usu.s3.workflow.Code>
+                </code>
+                <incomingTransitions/>
+                <initParams/>
+                <nodeLayout>
+                    <de.usu.s3.workflow.metamodel.ElementLayout id="585715" info="node = {nameKey = 'debug', owner = {nameKey = 'xDeOliverSteffe_debug'}}">
+                        <node id="585374"/>
+                        <datchg>2026-06-22T19:38:48.026</datchg>
+                        <datcre>2026-06-22T14:40:44.913</datcre>
+                        <height>96</height>
+                        <userchg>VM</userchg>
+                        <usercre>VM</usercre>
+                        <width>144</width>
+                        <xPos>29</xPos>
+                        <yPos>28</yPos>
+                    </de.usu.s3.workflow.metamodel.ElementLayout>
+                </nodeLayout>
+                <outgoingTransitions/>
+                <rights/>
+                <authorizeExplicitly/>
+                <autoStartedUserActivity>true</autoStartedUserActivity>
+                <beforeMerge/>
+                <customizable>false</customizable>
+                <datchg>2026-06-22T16:00:00.06</datchg>
+                <datcre>2026-06-22T14:40:44.913</datcre>
+                <indicatesStartingPoint>0</indicatesStartingPoint>
+                <nodeType>de.usu.s3.workflow.meta.activities.MetaRunScript</nodeType>
+                <synchronizationLock>true</synchronizationLock>
+                <transientNode>true</transientNode>
+                <userDescription/>
+                <userchg>VM</userchg>
+                <usercre>VM</usercre>
+            </de.usu.s3.workflow.metamodel.MetaNode>
+        </nodes>
+        <rights/>
+        <allowedInSideBar>true</allowedInSideBar>
+        <datchg>2026-06-22T20:02:06.108</datchg>
+        <datcre>2026-06-22T14:40:44.913</datcre>
+        <objectBoards/>
+        <type>0</type>
+        <userDescription/>
+        <userchg>VM</userchg>
+        <usercre>VM</usercre>
+    </de.usu.s3.workflow.metamodel.MetaWorkflow>
+    <de.usu.s3.workflow.metamodel.MetaWorkflow id="550017" info="xDeOliverSteffe_createTestData">
+        <nameKey>xDeOliverSteffe_createTestData</nameKey>
+        <actionInfoObjectWfs/>
+        <complSources/>
+        <moduleMetaWorkflows/>
+        <nodes>
+            <de.usu.s3.workflow.metamodel.MetaNode id="585375" info="createData">
+                <nameKey>createData</nameKey>
+                <owner id="550017"/>
+                <code>
+                    <de.usu.s3.workflow.Code id="294185" info="name = 'code'">
+                        <name>code</name>
+                        <changedBy>VM</changedBy>
+                        <changedWhen>2026-06-22T15:06:17.995</changedWhen>
+                        <comment nil="true"/>
+                        <datchg>2026-06-22T15:06:17.996</datchg>
+                        <datcre>2026-06-22T14:48:00.381</datcre>
+                        <metanode id="585375"/>
+                        <text><![CDATA[def setBusinessKeyforNewObject(bo):
+    if not bo.isPersistent():
+        boType = bo.getBOType()
+        prefix = boType.getPrefix() or ""
+        prefixLength = boType.getPrefixSuffixLength()
+        if not boType.canGenerateKey():
+            error = VM.localizeMessage(
+                "messages/Messages",
+                ".boKey.error.notSetFor",
+                [boType.getDisplayName()]
+                )
+            VM.throwError(error)
+
+        keyFieldName = bo.getBusinessKey().getName()
+        prefixValue = bo.getBOField(keyFieldName).getValue()
+        if prefixValue is None:
+            prefixValue = prefix
+        currentLength = len(prefixValue)
+        if currentLength < prefixLength:
+            # the key prefix has not been set
+            boType.generateKey(bo, prefix)
+            VM.updateEditorsFor(bo, keyFieldName,transaction)
+
+def findAndReturnFirstObject(objectTypeName, filter, txn=None): # ccc76 added txn
+    objectType = VM.getBOTypes().find(objectTypeName)
+
+    # Wenn txn nicht gesetzt ist, verwende globale 'transaction'
+    activeTxn = txn if txn is not None else transaction
+
+    objectsIterator = objectType.createIterator(activeTxn, filter)
+
+    while objectsIterator.hasNext():
+        return objectsIterator.next()
+
+    return None
+
+def createEmptySystemOfTypeAndStatus(typeName=None, status='ACT', txn=None): # ccc76 added txn
+
+    if typeName is None :
+        return False
+
+    activeTxn = txn if txn is not None else transaction
+
+
+    typeFilter_string = u"systype == '{}'".format(typeName)
+    systype = findAndReturnFirstObject('Systype', typeFilter_string, activeTxn)
+
+    if systype is None :
+        return False
+
+    systemBoType = VM.getBOTypes().find("System")
+    system = systemBoType.createBO(activeTxn,0)
+    setBusinessKeyforNewObject(system)
+
+    system.getBOField("systype").linkObject(systype)
+    system.getBOField("status").setValue(status)
+
+    return system
+
+txn = VM.createTransaction()
+sys = createEmptySystemOfTypeAndStatus("Host", None, txn)
+sys.getBOField("systemname").setValue("TEST-0000101")
+txn.doCommitResume()]]></text>
+                        <userchg>VM</userchg>
+                        <usercre>VM</usercre>
+                    </de.usu.s3.workflow.Code>
+                </code>
+                <incomingTransitions/>
+                <initParams/>
+                <nodeLayout>
+                    <de.usu.s3.workflow.metamodel.ElementLayout id="585716" info="node = {nameKey = 'createData', owner = {nameKey = 'xDeOliverSteffe_createTestData'}}">
+                        <node id="585375"/>
+                        <datchg>2026-06-22T15:24:36.52</datchg>
+                        <datcre>2026-06-22T14:48:00.381</datcre>
+                        <height>96</height>
+                        <userchg>VM</userchg>
+                        <usercre>VM</usercre>
+                        <width>144</width>
+                        <xPos>103</xPos>
+                        <yPos>61</yPos>
+                    </de.usu.s3.workflow.metamodel.ElementLayout>
+                </nodeLayout>
+                <outgoingTransitions/>
+                <rights/>
+                <authorizeExplicitly/>
+                <autoStartedUserActivity>true</autoStartedUserActivity>
+                <beforeMerge/>
+                <customizable>false</customizable>
+                <datchg>2026-06-22T14:51:59.92</datchg>
+                <datcre>2026-06-22T14:48:00.381</datcre>
+                <indicatesStartingPoint>0</indicatesStartingPoint>
+                <nodeType>de.usu.s3.workflow.meta.activities.MetaRunScript</nodeType>
+                <synchronizationLock>true</synchronizationLock>
+                <transientNode>true</transientNode>
+                <userDescription/>
+                <userchg>VM</userchg>
+                <usercre>VM</usercre>
+            </de.usu.s3.workflow.metamodel.MetaNode>
+            <de.usu.s3.workflow.metamodel.MetaNode id="585475" info="end">
+                <nameKey>end</nameKey>
+                <owner id="550017"/>
+                <code/>
+                <incomingTransitions/>
+                <initParams/>
+                <nodeLayout>
+                    <de.usu.s3.workflow.metamodel.ElementLayout id="585816" info="node = {nameKey = 'end', owner = {nameKey = 'xDeOliverSteffe_createTestData'}}">
+                        <node id="585475"/>
+                        <datchg>2026-06-22T15:19:03.545</datchg>
+                        <datcre>2026-06-22T15:19:03.545</datcre>
+                        <height>30</height>
+                        <userchg>VM</userchg>
+                        <usercre>VM</usercre>
+                        <width>30</width>
+                        <xPos>336</xPos>
+                        <yPos>16</yPos>
+                    </de.usu.s3.workflow.metamodel.ElementLayout>
+                </nodeLayout>
+                <outgoingTransitions/>
+                <rights/>
+                <authorizeExplicitly/>
+                <autoStartedUserActivity>true</autoStartedUserActivity>
+                <beforeMerge/>
+                <customizable>false</customizable>
+                <datchg>2026-06-22T15:19:03.545</datchg>
+                <datcre>2026-06-22T15:19:03.545</datcre>
+                <indicatesStartingPoint>0</indicatesStartingPoint>
+                <nodeType>de.usu.s3.workflow.meta.activities.MetaEndNodeActivity</nodeType>
+                <synchronizationLock>false</synchronizationLock>
+                <transientNode>true</transientNode>
+                <userDescription/>
+                <userchg>VM</userchg>
+                <usercre>VM</usercre>
+            </de.usu.s3.workflow.metamodel.MetaNode>
+            <de.usu.s3.workflow.metamodel.MetaNode id="585476" info="start">
+                <nameKey>start</nameKey>
+                <owner id="550017"/>
+                <code/>
+                <incomingTransitions/>
+                <initParams/>
+                <nodeLayout>
+                    <de.usu.s3.workflow.metamodel.ElementLayout id="585817" info="node = {nameKey = 'start', owner = {nameKey = 'xDeOliverSteffe_createTestData'}}">
+                        <node id="585476"/>
+                        <datchg>2026-06-22T15:19:03.545</datchg>
+                        <datcre>2026-06-22T15:19:03.545</datcre>
+                        <height>30</height>
+                        <userchg>VM</userchg>
+                        <usercre>VM</usercre>
+                        <width>30</width>
+                        <xPos>29</xPos>
+                        <yPos>17</yPos>
+                    </de.usu.s3.workflow.metamodel.ElementLayout>
+                </nodeLayout>
+                <outgoingTransitions/>
+                <rights/>
+                <authorizeExplicitly/>
+                <autoStartedUserActivity>true</autoStartedUserActivity>
+                <beforeMerge/>
+                <customizable>false</customizable>
+                <datchg>2026-06-22T15:19:03.545</datchg>
+                <datcre>2026-06-22T15:19:03.545</datcre>
+                <indicatesStartingPoint>0</indicatesStartingPoint>
+                <nodeType>de.usu.s3.workflow.meta.activities.MetaStartNodeActivity</nodeType>
+                <synchronizationLock>false</synchronizationLock>
+                <transientNode>true</transientNode>
+                <userDescription/>
+                <userchg>VM</userchg>
+                <usercre>VM</usercre>
+            </de.usu.s3.workflow.metamodel.MetaNode>
+        </nodes>
+        <rights/>
+        <allowedInSideBar>true</allowedInSideBar>
+        <datchg>2026-06-22T16:06:29.995</datchg>
+        <datcre>2026-06-22T14:48:00.381</datcre>
+        <objectBoards/>
+        <type>0</type>
+        <userDescription/>
+        <userchg>VM</userchg>
+        <usercre>VM</usercre>
+    </de.usu.s3.workflow.metamodel.MetaWorkflow>
+    <de.usu.s3.workflow.metamodel.MetaWorkflow id="550115" info="xDeOliverSteffe_deleteTestData">
+        <nameKey>xDeOliverSteffe_deleteTestData</nameKey>
+        <actionInfoObjectWfs/>
+        <complSources/>
+        <moduleMetaWorkflows/>
+        <nodes>
+            <de.usu.s3.workflow.metamodel.MetaNode id="585474" info="deleteData">
+                <nameKey>deleteData</nameKey>
+                <owner id="550115"/>
+                <code>
+                    <de.usu.s3.workflow.Code id="294294" info="name = 'code'">
+                        <name>code</name>
+                        <changedBy>VM</changedBy>
+                        <changedWhen>2026-06-22T15:30:18.595</changedWhen>
+                        <comment nil="true"/>
+                        <datchg>2026-06-22T15:30:18.6</datchg>
+                        <datcre>2026-06-22T15:07:17.059</datcre>
+                        <metanode id="585474"/>
+                        <text><![CDATA[def findAndReturnFirstObject(objectTypeName, filter, txn=None):
+    objectType = VM.getBOTypes().find(objectTypeName)
+
+    # Wenn txn nicht gesetzt ist, verwende globale 'transaction'
+    activeTxn = txn if txn is not None else transaction
+
+    objectsIterator = objectType.createIterator(activeTxn, filter)
+
+    while objectsIterator.hasNext():
+        return objectsIterator.next()
+
+    return None
+
+systemName = "TEST-0000101"
+systemFilter_string = u"systemname == '{}'".format(systemName)
+txn = VM.createTransaction()
+bo = findAndReturnFirstObject('System', systemFilter_string, txn)
+if bo:
+    bo.remove()
+txn.doCommitResume()]]></text>
+                        <userchg>VM</userchg>
+                        <usercre>VM</usercre>
+                    </de.usu.s3.workflow.Code>
+                </code>
+                <incomingTransitions/>
+                <initParams/>
+                <nodeLayout>
+                    <de.usu.s3.workflow.metamodel.ElementLayout id="585815" info="node = {nameKey = 'deleteData', owner = {nameKey = 'xDeOliverSteffe_deleteTestData'}}">
+                        <node id="585474"/>
+                        <datchg>2026-06-22T15:07:17.059</datchg>
+                        <datcre>2026-06-22T15:07:17.059</datcre>
+                        <height>96</height>
+                        <userchg>VM</userchg>
+                        <usercre>VM</usercre>
+                        <width>144</width>
+                        <xPos>91</xPos>
+                        <yPos>53</yPos>
+                    </de.usu.s3.workflow.metamodel.ElementLayout>
+                </nodeLayout>
+                <outgoingTransitions/>
+                <rights/>
+                <authorizeExplicitly/>
+                <autoStartedUserActivity>true</autoStartedUserActivity>
+                <beforeMerge/>
+                <customizable>false</customizable>
+                <datchg>2026-06-22T15:07:17.059</datchg>
+                <datcre>2026-06-22T15:07:17.059</datcre>
+                <indicatesStartingPoint>0</indicatesStartingPoint>
+                <nodeType>de.usu.s3.workflow.meta.activities.MetaRunScript</nodeType>
+                <synchronizationLock>true</synchronizationLock>
+                <transientNode>true</transientNode>
+                <userDescription/>
+                <userchg>VM</userchg>
+                <usercre>VM</usercre>
+            </de.usu.s3.workflow.metamodel.MetaNode>
+            <de.usu.s3.workflow.metamodel.MetaNode id="585478" info="end">
+                <nameKey>end</nameKey>
+                <owner id="550115"/>
+                <code/>
+                <incomingTransitions/>
+                <initParams/>
+                <nodeLayout>
+                    <de.usu.s3.workflow.metamodel.ElementLayout id="585819" info="node = {nameKey = 'end', owner = {nameKey = 'xDeOliverSteffe_deleteTestData'}}">
+                        <node id="585478"/>
+                        <datchg>2026-06-22T15:19:56.658</datchg>
+                        <datcre>2026-06-22T15:19:56.658</datcre>
+                        <height>30</height>
+                        <userchg>VM</userchg>
+                        <usercre>VM</usercre>
+                        <width>30</width>
+                        <xPos>496</xPos>
+                        <yPos>16</yPos>
+                    </de.usu.s3.workflow.metamodel.ElementLayout>
+                </nodeLayout>
+                <outgoingTransitions/>
+                <rights/>
+                <authorizeExplicitly/>
+                <autoStartedUserActivity>true</autoStartedUserActivity>
+                <beforeMerge/>
+                <customizable>false</customizable>
+                <datchg>2026-06-22T15:19:56.658</datchg>
+                <datcre>2026-06-22T15:19:56.658</datcre>
+                <indicatesStartingPoint>0</indicatesStartingPoint>
+                <nodeType>de.usu.s3.workflow.meta.activities.MetaEndNodeActivity</nodeType>
+                <synchronizationLock>false</synchronizationLock>
+                <transientNode>true</transientNode>
+                <userDescription/>
+                <userchg>VM</userchg>
+                <usercre>VM</usercre>
+            </de.usu.s3.workflow.metamodel.MetaNode>
+            <de.usu.s3.workflow.metamodel.MetaNode id="585477" info="start">
+                <nameKey>start</nameKey>
+                <owner id="550115"/>
+                <code/>
+                <incomingTransitions/>
+                <initParams/>
+                <nodeLayout>
+                    <de.usu.s3.workflow.metamodel.ElementLayout id="585818" info="node = {nameKey = 'start', owner = {nameKey = 'xDeOliverSteffe_deleteTestData'}}">
+                        <node id="585477"/>
+                        <datchg>2026-06-22T15:19:56.658</datchg>
+                        <datcre>2026-06-22T15:19:56.658</datcre>
+                        <height>30</height>
+                        <userchg>VM</userchg>
+                        <usercre>VM</usercre>
+                        <width>30</width>
+                        <xPos>336</xPos>
+                        <yPos>16</yPos>
+                    </de.usu.s3.workflow.metamodel.ElementLayout>
+                </nodeLayout>
+                <outgoingTransitions/>
+                <rights/>
+                <authorizeExplicitly/>
+                <autoStartedUserActivity>true</autoStartedUserActivity>
+                <beforeMerge/>
+                <customizable>false</customizable>
+                <datchg>2026-06-22T15:19:56.658</datchg>
+                <datcre>2026-06-22T15:19:56.658</datcre>
+                <indicatesStartingPoint>0</indicatesStartingPoint>
+                <nodeType>de.usu.s3.workflow.meta.activities.MetaStartNodeActivity</nodeType>
+                <synchronizationLock>false</synchronizationLock>
+                <transientNode>true</transientNode>
+                <userDescription/>
+                <userchg>VM</userchg>
+                <usercre>VM</usercre>
+            </de.usu.s3.workflow.metamodel.MetaNode>
+        </nodes>
+        <rights/>
+        <allowedInSideBar>true</allowedInSideBar>
+        <datchg>2026-06-22T16:06:21.275</datchg>
+        <datcre>2026-06-22T15:07:17.059</datcre>
+        <objectBoards/>
+        <type>0</type>
+        <userDescription/>
+        <userchg>VM</userchg>
+        <usercre>VM</usercre>
+    </de.usu.s3.workflow.metamodel.MetaWorkflow>
+</VMObjects>
